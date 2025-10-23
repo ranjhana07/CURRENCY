@@ -31,131 +31,112 @@ class OptimizedCurrencyDetector:
         self.root.title("🎯 OPTIMIZED Currency Detector")
         self.root.geometry("950x750")
         self.root.configure(bg='#f0f0f0')
-        
-        # Title
-        title_label = tk.Label(
-            self.root, 
-            text="🎯 OPTIMIZED CURRENCY DETECTION SYSTEM", 
-            font=('Arial', 18, 'bold'),
-            bg='#f0f0f0',
-            fg='#27ae60'
-        )
-        title_label.pack(pady=15)
-        
-        subtitle_label = tk.Label(
-            self.root, 
-            text="⚡ Fine-tuned Thresholds | Enhanced Fake Detection", 
-            font=('Arial', 11),
-            bg='#f0f0f0',
-            fg='#7f8c8d'
-        )
-        subtitle_label.pack(pady=5)
-        
-        # Main container
-        main_container = tk.Frame(self.root, bg='#f0f0f0')
-        main_container.pack(expand=True, fill='both', padx=20, pady=10)
-        
-        # Left panel for image
-        left_panel = tk.Frame(main_container, bg='white', relief='raised', bd=2)
-        left_panel.pack(side='left', fill='both', expand=True, padx=(0, 10))
-        
-        tk.Label(left_panel, text="💰 Currency Image", font=('Arial', 14, 'bold'), 
-                bg='white', fg='#34495e').pack(pady=10)
-        
-        self.image_label = tk.Label(
-            left_panel, 
-            text="Load an image to begin\\n\\n⚡ Optimized thresholds\\n🎯 Enhanced fake detection", 
-            font=('Arial', 11),
-            bg='#ecf0f1',
-            fg='#7f8c8d',
-            width=45,
-            height=15,
-            relief='sunken',
-            bd=2
-        )
-        self.image_label.pack(pady=15, padx=15, fill='both', expand=True)
-        
-        # Load button
-        load_btn = tk.Button(
-            left_panel,
-            text="📁 Load Currency Image",
-            command=self.load_image,
-            font=('Arial', 12, 'bold'),
-            bg='#27ae60',
-            fg='white',
-            padx=25,
-            pady=12
-        )
-        load_btn.pack(pady=15)
-        
-        # Right panel for results
-        right_panel = tk.Frame(main_container, bg='white', relief='raised', bd=2)
-        right_panel.pack(side='right', fill='both', expand=True)
-        
-        tk.Label(right_panel, text="🔍 Detection Results", font=('Arial', 14, 'bold'), 
-                bg='white', fg='#34495e').pack(pady=10)
-        
-        # Analyze button
-        self.analyze_btn = tk.Button(
-            right_panel,
-            text="⚡ OPTIMIZED DETECT",
-            command=self.analyze_currency,
-            font=('Arial', 13, 'bold'),
-            bg='#e74c3c',
-            fg='white',
-            padx=25,
-            pady=15,
-            state='disabled'
-        )
-        self.analyze_btn.pack(pady=10)
-        
-        # Result display label (big, clear result)
-        self.result_label = tk.Label(
-            right_panel,
-            text="",
-            font=('Arial', 16, 'bold'),
-            bg='white',
-            fg='#333333',
-            padx=10,
-            pady=10,
-            relief='flat'
-        )
-        self.result_label.pack(pady=(0, 10))
-        
-        # Results display
-        results_frame = tk.Frame(right_panel, bg='white')
-        results_frame.pack(fill='both', expand=True, padx=15, pady=15)
-        
-        self.results_text = tk.Text(
-            results_frame,
-            wrap=tk.WORD,
-            font=('Courier New', 11),
-            bg='#1e1e1e',
-            fg='#ffffff',
-            insertbackground='white',
-            selectbackground='#0078d4'
-        )
-        
-        scrollbar = tk.Scrollbar(results_frame, orient="vertical", command=self.results_text.yview)
+        # Top-level frames to mimic a dashboard layout
+        # Left sidebar
+        sidebar = tk.Frame(self.root, bg='#1f2d3d', width=180)
+        sidebar.pack(side='left', fill='y')
+
+        logo = tk.Label(sidebar, text="CurrencyVision\nAI", bg='#1f2d3d', fg='white', font=('Helvetica', 12, 'bold'))
+        logo.pack(pady=(20,10))
+
+        # Sidebar navigation
+        nav_items = ["Dashboard", "Detect Currency", "Detection Analytics", "Reports", "Settings"]
+        for item in nav_items:
+            b = tk.Button(sidebar, text=item, bg='#22313f', fg='white', bd=0, relief='flat', padx=10, pady=8, anchor='w')
+            b.pack(fill='x', padx=10, pady=4)
+
+        # Main area
+        main_area = tk.Frame(self.root, bg='#f6f9fc')
+        main_area.pack(side='left', fill='both', expand=True)
+
+        # Header with title and small controls
+        header = tk.Frame(main_area, bg='#f6f9fc')
+        header.pack(fill='x', pady=12, padx=12)
+
+        title = tk.Label(header, text="Currency Detection Dashboard", font=('Segoe UI', 16, 'bold'), bg='#f6f9fc', fg='#2c3e50')
+        title.pack(side='left')
+
+        # Simple stats cards row
+        stats_row = tk.Frame(main_area, bg='#f6f9fc')
+        stats_row.pack(fill='x', padx=12)
+
+        def make_card(parent, label, value, bg='#ffffff'):
+            card = tk.Frame(parent, bg=bg, bd=1, relief='flat', padx=12, pady=10)
+            tk.Label(card, text=value, font=('Segoe UI', 14, 'bold'), bg=bg, fg='#2c3e50').pack()
+            tk.Label(card, text=label, font=('Segoe UI', 9), bg=bg, fg='#7f8c8d').pack()
+            return card
+
+        card1 = make_card(stats_row, 'Total Currencies Scanned', '46', bg='#ffffff')
+        card2 = make_card(stats_row, 'Valid Notes', '29', bg='#e8f8f5')
+        card3 = make_card(stats_row, 'Counterfeits Detected', '10', bg='#fff0f0')
+        card4 = make_card(stats_row, 'Accuracy Rate', '63%', bg='#fff7e6')
+
+        card1.pack(side='left', padx=8, pady=8)
+        card2.pack(side='left', padx=8, pady=8)
+        card3.pack(side='left', padx=8, pady=8)
+        card4.pack(side='left', padx=8, pady=8)
+
+        # Content area with upload card and detected currency panel
+        content = tk.Frame(main_area, bg='#f6f9fc')
+        content.pack(fill='both', expand=True, padx=12, pady=12)
+
+        left_content = tk.Frame(content, bg='white', bd=1, relief='groove')
+        left_content.pack(side='left', fill='both', expand=True, padx=(0,10))
+
+        tk.Label(left_content, text='Upload Currency Image', bg='white', fg='#34495e', font=('Segoe UI', 12, 'bold')).pack(pady=12)
+
+        upload_frame = tk.Frame(left_content, bg='#fbfdff', bd=1, relief='ridge', height=240)
+        upload_frame.pack(fill='both', expand=True, padx=20, pady=10)
+
+        # big image area (re-using self.image_label)
+        self.image_label = tk.Label(upload_frame, text='Drag and drop an image here, or', bg='#fbfdff', fg='#95a5a6', font=('Segoe UI', 10), width=40, height=10)
+        self.image_label.pack(pady=12)
+
+        btn_row = tk.Frame(upload_frame, bg='#fbfdff')
+        btn_row.pack(pady=8)
+
+        upload_btn = tk.Button(btn_row, text='Upload Image', command=self.load_image, bg='#3498db', fg='white', padx=12, pady=8)
+        camera_btn = tk.Button(btn_row, text='Use Laptop Camera', bg='#95a5a6', fg='white', padx=12, pady=8)
+        phone_btn = tk.Button(btn_row, text='Use Phone Camera', bg='#ff6b81', fg='white', padx=12, pady=8)
+
+        upload_btn.pack(side='left', padx=6)
+        camera_btn.pack(side='left', padx=6)
+        phone_btn.pack(side='left', padx=6)
+
+        # Right panel for detected currency and results
+        right_content = tk.Frame(content, bg='white', bd=1, relief='groove', width=300)
+        right_content.pack(side='right', fill='y')
+
+        tk.Label(right_content, text='Detected Currency', bg='white', fg='#34495e', font=('Segoe UI', 12, 'bold')).pack(pady=12)
+
+        detected_area = tk.Frame(right_content, bg='#fafafa', height=220, width=260, bd=1, relief='sunken')
+        detected_area.pack(padx=12, pady=8)
+
+        # Keep result label and results text but style them to match
+        self.result_label = tk.Label(detected_area, text='', bg='#fafafa', fg='#2c3e50', font=('Segoe UI', 12, 'bold'))
+        self.result_label.pack(pady=10)
+
+        results_panel = tk.Frame(right_content, bg='white')
+        results_panel.pack(fill='both', expand=True, padx=8, pady=8)
+
+        self.results_text = tk.Text(results_panel, height=12, wrap=tk.WORD, font=('Consolas', 10))
+        scrollbar = tk.Scrollbar(results_panel, orient='vertical', command=self.results_text.yview)
         self.results_text.configure(yscrollcommand=scrollbar.set)
-        
-        self.results_text.pack(side="left", fill="both", expand=True)
-        scrollbar.pack(side="right", fill="y")
-        
-        # Status bar
+        self.results_text.pack(side='left', fill='both', expand=True)
+        scrollbar.pack(side='right', fill='y')
+
+        # Action row: analyze button and status bar
+        action_row = tk.Frame(self.root, bg='#f0f0f0')
+        action_row.pack(side='bottom', fill='x')
+
+        self.analyze_btn = tk.Button(action_row, text='⚡ OPTIMIZED DETECT', command=self.analyze_currency, bg='#e74c3c', fg='white', padx=20, pady=10, state='disabled')
+        self.analyze_btn.pack(side='right', padx=20, pady=10)
+
         self.status_var = tk.StringVar()
-        self.status_var.set("Ready - Optimized detector with fine-tuned thresholds")
-        status_bar = tk.Label(
-            self.root,
-            textvariable=self.status_var,
-            font=('Arial', 10),
-            bg='#27ae60',
-            fg='white',
-            relief='sunken',
-            anchor='w'
-        )
-        status_bar.pack(side='bottom', fill='x')
-        
+        self.status_var.set('Ready - Optimized detector with fine-tuned thresholds')
+        status_bar = tk.Label(action_row, textvariable=self.status_var, bg='#ecf0f1', anchor='w')
+        status_bar.pack(side='left', fill='x', expand=True, padx=12, pady=8)
+
         self.current_image_path = None
         
     def load_image(self):
